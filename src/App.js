@@ -6,53 +6,55 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 
 function App() {
   const [task, setTask] = useState("");
-  const [data, setData] = useState(()=>{
-    let saveTodos= localStorage.getItem("todos");
-    if(saveTodos){
+  const [data, setData] = useState(() => {
+    let saveTodos = localStorage.getItem("todos");
+    if (saveTodos) {
       return JSON.parse(saveTodos);
     }
-    else{
+    else {
       return [];
     }
   })
-  
+
 
   const handleInsert = () => {
     setData([...data, { id: data.length + 1, title: task, status: true }]);
     setTask("");
   }
-  useEffect(()=>{
-       localStorage.setItem("todos",JSON.stringify(data));
-  },[data]);
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(data));
+  }, [data]);
   const handleDelete = (id) => {
     setData(data.filter((task) => task.id !== id))
 
   }
-  const handleChecked = (id,status) => {
+  const handleChecked = (id, status) => {
 
     if (!status) {
 
       setData(data.map((item) => (item.id === id) ? { ...item, status: true } : item));
-    
+
     }
     else {
 
       setData(data.map((item) => (item.id === id) ? { ...item, status: false } : item));
-      
+
     }
 
   }
   return (
+
+   
     <>
       <Container>
         <Grid container sx={{ justifyContent: "center", }}>
-`<Grid item lg={6}>
-            <Typography variant='h2' sx={{ color: 'white',backgroundColor:"gray", textAlign: 'center', borderRadius: 2 }} my={2}>
+          <Grid item lg={6}>
+            <Typography variant='h2' sx={{ color: 'white', backgroundColor: "gray", textAlign: 'center', borderRadius: 2 }} my={2}>
               Todo App
             </Typography>
             <Card sx={{ height: 600 }}>
-              <Paper elevation={2} sx={{ display: 'flex', gap: 1, padding: 1.5 }}>
-                <TextField sx={{ width: '90%' }} value={task} onChange={(e) => setTask(e.target.value)} placeholder='e.g buy a milk,food,vegitable etc...' />
+              <Paper elevation={2} sx={{ display: 'flex', gap: 1, padding: 1.5,backgroundColor:"#f3ebe1" }}>
+                <TextField sx={{ width: '90%' }} value={task} onChange={(e) => setTask(e.target.value)}  label="Click Hear" placeholder='e.g buy a milk,food,vegitable etc...' />
                 <Button variant='contained' onClick={handleInsert} startIcon={<AddTaskIcon />} >Add</Button>
               </Paper>
               <Card>
@@ -62,10 +64,10 @@ function App() {
                       color='error' onClick={() => handleDelete(value.id)}>Delete</Button>}>
                       <ListItemIcon>
                         {
-                          (value.status)? <Checkbox onChange={() => handleChecked(value.id,value.status)}></Checkbox>:
-                          <Checkbox defaultChecked onChange={() => handleChecked(value.id,value.status)}></Checkbox>
+                          (value.status) ? <Checkbox onChange={() => handleChecked(value.id, value.status)}></Checkbox> :
+                            <Checkbox defaultChecked onChange={() => handleChecked(value.id, value.status)}></Checkbox>
                         }
-                       
+
                       </ListItemIcon>
                       {value.status && value.title} {(!value.status) && <del>{value.title}</del>}
                     </ListItem>
@@ -74,6 +76,7 @@ function App() {
                 </List>
               </Card>
             </Card>
+            <Typography variant='small'  sx={{ textAlign: "center",color:"gray",fontSize:10 }}>@ Created By Wasik</Typography>
           </Grid>
         </Grid>
       </Container>
